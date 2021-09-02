@@ -3,8 +3,6 @@ body{
     margin-top:20px;
 }
 .media.media-news {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     position: relative;
     padding-bottom: 210px;
@@ -71,3 +69,4 @@ body{
 .media.media-news .media-body .common-btn {
     margin-top: 10px;
 }
+

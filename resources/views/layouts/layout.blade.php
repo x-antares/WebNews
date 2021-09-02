@@ -73,6 +73,8 @@
 </footer>
 
 <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
 </body>
 </html>
