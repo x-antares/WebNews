@@ -13,7 +13,6 @@ class News extends Model
         'name',
         'image_path',
         'text',
-        'image_path_preview',
     ];
 
     public function tags()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsRequest;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -31,10 +32,10 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param NewsRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(NewsRequest $request)
     {
         $newsModel = new News;
         $newsModel->name = $request->get('name');
@@ -78,11 +79,11 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\News  $news
+     * @param NewsRequest $request
+     * @param \App\Models\News $news
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(NewsRequest $request, News $news)
     {
         $news->name = $request->get('name');
         $news->text = $request->get('text');
@@ -96,7 +97,8 @@ class NewsController extends Controller
             $news->image_path = '/storage/' . $path;
         }
         $news->save();
-//        return redirect()->route('news.index');
+
+        return redirect()->route('news.index');
 
     }
 

@@ -16,21 +16,30 @@
             <label for="name" class="col-sm-2 ms-3 col-form-label">Name of new</label>
                 <div class="col-sm-5">
                     <input type="text" name="name" class="form-control"
-                           value="{{isset($news) ? $news->name : null}}"
+                           value="{{ old('name', isset($news) ? $news->name : null) }}"
                            id="name" placeholder="Name">
+                    @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
         </div>
         <div class="form-group row">
             <label for="text" class="col-sm-2 ms-3 col-form-label">Text</label>
                  <div class="col-sm-7">
                      <textarea class="form-control" name="text" id="text" rows="7"
-                               placeholder="Type your new">{{isset($news) ? $news->text : null}}</textarea>
+                               placeholder="Type your new">{{ old('text', isset($news) ? $news->text : null) }}</textarea>
                  </div>
+                    @error('text')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
         </div>
         <div class="form-group">
-            <label for="image">Image {{isset($news) ? $news->image_path : null}}</label>
+            <label for="image">Image {{ isset($news) ? $news->image_path : null }}</label>
             <input type="file" name="image" class="form-control-file" id="image">
         </div>
+                @error('image')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
         <div class="form-group row">
             <label for="tag" class="col-sm-2 ms-3 col-form-label">Tags</label>
             <div class="col-sm-5">
