@@ -28,16 +28,18 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('news.index')}}">Home</a></li>
                 </ol>
             </nav>
         </div>
     </div>
 </header>
-
-<main>
-    @yield('content')
-</main>
+    <div class="container">
+            <h1 align="center">@yield('title')</h1>
+        <main>
+            @yield('content')
+        </main>
+    </div>
 <footer class="text-muted py-5">
     <div class="container">
         <p class="float-end mb-1">

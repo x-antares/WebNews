@@ -11,8 +11,9 @@ class News extends Model
 
     protected $fillable = [
         'name',
-        'image_name',
+        'image_path',
         'text',
+        'image_path_preview',
     ];
 
     public function tags()

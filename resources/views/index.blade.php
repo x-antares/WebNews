@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="container">
+        <a class="btn btn-primary" href="{{route('news.create')}}" role="button">Create news</a>
             <div class="row no-gutters mt-4">
                 @foreach($news as $new)
                 <div class="col-xl-6 col-12">
@@ -16,6 +17,7 @@
                         <h5 class="mt-0 sep"> {{$new->name}}</h5>
                         <p>{{$new->text}}</p>
                         <a href="#" class="btn btn-transparent">View More</a>
+                        <a type="button" class="btn btn-warning" href="{{route('news.edit', $new)}}">Edit</a>
                     </div>
                 </div>
             </div>

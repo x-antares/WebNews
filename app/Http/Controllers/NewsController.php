@@ -32,11 +32,25 @@ class NewsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $newsModel = new News;
+        $newsModel->name = $request->get('name');
+        $newsModel->text = $request->get('text');
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            //          make image for preview
+            //           $image->resize(350, 280);
+
+            $path = $image->store('images');
+            $newsModel->image_path = '/storage/' . $path;
+            $newsModel->save();
+        }
+
+        return redirect()->route('news.index');
     }
 
     /**
@@ -58,7 +72,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        return view('form', compact($news));
+        return view('form', ["news" => $news]);
     }
 
     /**
@@ -66,11 +80,25 @@ class NewsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, News $news)
     {
-        //
+        $news->name = $request->get('name');
+        $news->text = $request->get('text');
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            //          make image for preview
+            //           $image->resize(350, 280);
+
+            $path = $image->store('images');
+            $news->image_path = '/storage/' . $path;
+            $news->save();
+        }
+
+        return redirect()->route('news.index');
+
     }
 
     /**
