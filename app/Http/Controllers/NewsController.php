@@ -51,7 +51,7 @@ class NewsController extends Controller
         }
         $newsModel->save();
 
-        return redirect()->route('news.index');
+        return redirect()->route('news.index')->withSuccess('Created news '.$request->name);
     }
 
     /**
@@ -98,7 +98,7 @@ class NewsController extends Controller
         }
         $news->save();
 
-        return redirect()->route('news.index');
+        return redirect()->route('news.index')->withSuccess('Updated news '.$news->name);
 
     }
 
@@ -112,7 +112,7 @@ class NewsController extends Controller
     {
         $news->delete();
 
-        return redirect()->route('news.index');
+        return redirect()->route('news.index')->withDanger('Deleted news '.$news->name);
     }
 }
 
