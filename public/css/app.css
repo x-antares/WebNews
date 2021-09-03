@@ -1,6 +1,5 @@
 body{
     background-color: #eee;
-    margin-top:20px;
 }
 .media.media-news {
     display: flex;
@@ -69,4 +68,11 @@ body{
 .media.media-news .media-body .common-btn {
     margin-top: 10px;
 }
+.navbar {
+    margin-bottom: 30px;
+}
+.col-xl-6 {
+    padding: 10px 0;
+}
+
 

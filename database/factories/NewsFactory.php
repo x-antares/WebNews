@@ -23,8 +23,8 @@ class NewsFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'image_name' => $this->faker->image('public/assets/images/uploaded', 350, 280, null, false),
             'text' => $this->faker->sentence,
-            'image_name' => $this->faker->image(),
         ];
     }
 }
