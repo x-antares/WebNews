@@ -13,11 +13,16 @@
                         <img src="https://via.placeholder.com/350x280/20B2AA/000000" alt="Generic placeholder image">
                     </div>
                     <div class="media-body">
-                        <span class="media-date">{{$new->created_at}}</span>
-                        <h5 class="mt-0 sep"> {{$new->name}}</h5>
+                        <span class="media-date">{{$new->created_at->format('d-m-y H:i:s')}}</span>
+                            <a href="{{route('news.show', $new)}}"><h5 class="mt-0 sep"> {{$new->name}}</h5></a>
                         <p>{{$new->text}}</p>
-                        <a href="#" class="btn btn-transparent">View More</a>
+                        <form method="POST" action="{{route('news.destroy', $new)}}">
+                        <a href="{{route('news.show', $new)}}" class="btn btn-transparent">View More</a>
                         <a type="button" class="btn btn-warning" href="{{route('news.edit', $new)}}">Edit</a>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>

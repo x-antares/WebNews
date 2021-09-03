@@ -47,8 +47,8 @@ class NewsController extends Controller
 
             $path = $image->store('images');
             $newsModel->image_path = '/storage/' . $path;
-            $newsModel->save();
         }
+        $newsModel->save();
 
         return redirect()->route('news.index');
     }
@@ -61,7 +61,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return view('show');
+        return view('show', ['news' => $news]);
     }
 
     /**
@@ -94,10 +94,9 @@ class NewsController extends Controller
 
             $path = $image->store('images');
             $news->image_path = '/storage/' . $path;
-            $news->save();
         }
-
-        return redirect()->route('news.index');
+        $news->save();
+//        return redirect()->route('news.index');
 
     }
 
@@ -105,10 +104,13 @@ class NewsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(News $news)
     {
-        //
+        $news->delete();
+
+        return redirect()->route('news.index');
     }
 }
+

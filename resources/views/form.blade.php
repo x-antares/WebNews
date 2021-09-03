@@ -1,8 +1,7 @@
 @extends('layouts.layout')
-
 @section('title', isset($news) ? 'Update '.$news->name : 'Create news')
-
 @section('content')
+
     <form method="POST"
           @if(isset($news))
                 action="{{route("news.update", $news)}}" enctype="multipart/form-data">
