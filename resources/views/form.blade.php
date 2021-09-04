@@ -34,8 +34,10 @@
                     @enderror
         </div>
         <div class="form-group">
-            <label for="image">Image {{ isset($news) ? $news->image_path : null }}</label>
-            <input type="file" name="image" class="form-control-file" id="image">
+            <div class="custom-file">
+                <input type="file" name="file" class="custom-file-input" id="chooseFile">
+                <label class="custom-file-label" for="chooseFile">{{ isset($news->image_path) ? $news->image_path : "Select file" }}</label>
+            </div>
         </div>
                 @error('image')
                     <div class="alert alert-danger">{{ $message }}</div>

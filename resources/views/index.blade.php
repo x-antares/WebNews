@@ -16,7 +16,8 @@
                         <span class="media-date">{{$new->created_at->format('d-m-y H:i:s')}}</span>
                             <a href="{{route('news.show', $new)}}"><h5 class="mt-0 sep"> {{$new->name}}</h5></a>
                         <p>{{$new->text}}</p>
-                        <form method="POST" action="{{route('news.destroy', $new)}}">
+                        <form method="POST" action="{{route('news.destroy', $new)}}"
+                              onSubmit="if(!confirm('Are you really want to delete this new?')){return false;}">
                         <a href="{{route('news.show', $new)}}" class="btn btn-transparent">View More</a>
                         <a type="button" class="btn btn-warning" href="{{route('news.edit', $new)}}">Edit</a>
                             @csrf
@@ -29,5 +30,5 @@
                 @endforeach
             </div>
     </div>
-    {{ $news->links() }}
+        {{ $news->links() }}
 @endsection
