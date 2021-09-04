@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NewsRequest;
 use App\Models\News;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -14,7 +15,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::paginate(4);
+        $news = News::where('active', '1')->orderBy('created_at', 'desc')->paginate(4);
         return view('index', ["news" => $news]);
     }
 
@@ -39,6 +40,7 @@ class NewsController extends Controller
         $newsModel = new News;
         $newsModel->name = $request->get('name');
         $newsModel->text = $request->get('text');
+        $newsModel->active = $request->get('active');
 
         if($request->hasFile('image')) {
             $image = $request->file('image');
@@ -86,6 +88,7 @@ class NewsController extends Controller
     {
         $news->name = $request->get('name');
         $news->text = $request->get('text');
+        $news->active = $request->get('active');
 
         if($request->hasFile('image')) {
             $image = $request->file('image');

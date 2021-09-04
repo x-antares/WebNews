@@ -26,15 +26,14 @@
 </head>
 <body>
 <header>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page"><a href="{{route('news.index')}}">Home</a></li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+    <nav class="navbar navbar-dark bg-dark shadow-sm">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('news.index')}}">Home</a></li>
+                <li class="breadcrumb-item">@yield('link')</li>
+            </ol>
+        </nav>
+    </nav>
 </header>
     <div class="container">
             <h1 align="center">@yield('title')</h1>

@@ -49,6 +49,15 @@
             </div>
         </div>
         <div class="form-group row">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="active" value="{{ old('active', isset($news) ? $news->active : null) }}" id="active">
+                <label for="checkActive">Publish new</label>
+            </div>
+        </div>
+                @error('active')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+        <div class="form-group row">
             <div class="col-sx-10">
                 <button type="submit" class="btn btn-success form-control pull-right">Create</button>
             </div>
