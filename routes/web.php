@@ -16,3 +16,7 @@ use App\Http\Controllers\NewsController;
 
 Route::redirect('/', 'news');
 Route::resource('news', NewsController::class);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();

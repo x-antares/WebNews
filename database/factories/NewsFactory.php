@@ -25,6 +25,7 @@ class NewsFactory extends Factory
             'name' => $this->faker->name(),
             'image_path' => $this->faker->image('public/storage/images', 350, 280, null, false),
             'text' => $this->faker->sentence,
+            'active' => $this->faker->boolean(true)
         ];
     }
 }
