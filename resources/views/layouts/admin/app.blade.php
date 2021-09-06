@@ -15,7 +15,6 @@
 
     @stack('page_css')
 </head>
-
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     <!-- Main Header -->
@@ -26,18 +25,17 @@
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
+                    <img src="https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg"
                          class="user-image img-circle elevation-2" alt="User Image">
                     <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
-                        <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
+                        <img src="https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg"
                              class="img-circle elevation-2"
                              alt="User Image">
                         <p>
@@ -47,7 +45,6 @@
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat">Profile</a>
                         <a href="#" class="btn btn-default btn-flat float-right"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Sign out
@@ -62,7 +59,7 @@
     </nav>
 
     <!-- Left side column. contains the logo and sidebar -->
-@include('layouts.sidebar')
+@include('layouts.admin.sidebar')
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -70,15 +67,6 @@
             @yield('content')
         </section>
     </div>
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.5
-        </div>
-        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
-    </footer>
 </div>
 
 <script src="{{ mix('js/app.js') }}" defer></script>

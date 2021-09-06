@@ -22,7 +22,7 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::where('active', 'on')->orderBy('created_at', 'desc')->paginate(4);
-        return view('index', ["news" => $news]);
+        return view('news.index', ["news" => $news]);
     }
 
     /**
@@ -32,7 +32,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('form');
+        return view('news.form');
     }
 
     /**
@@ -88,7 +88,7 @@ class NewsController extends Controller
      */
     public function show(News $news)
     {
-        return view('show', ['news' => $news]);
+        return view('news.show', ['news' => $news]);
     }
 
     /**
@@ -108,7 +108,7 @@ class NewsController extends Controller
         }
         $strTags = implode(" ", $arr);
 
-        return view('form', [
+        return view('news.form', [
             "news" => $news,
             "strTags" => $strTags
         ]);
@@ -126,7 +126,7 @@ class NewsController extends Controller
     {
         $news->name = $request->get('name');
         $news->text = $request->get('text');
-        $news->active = $request->get('active');//
+        $news->active = $request->get('active');
 
         if($request->hasFile('image')) {
             $image = $request->file('image');
