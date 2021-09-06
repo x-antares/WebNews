@@ -26,8 +26,8 @@ class NewsRequest extends FormRequest
         return [
             'name' => 'min:3|max:55|required|string',
             'text' => 'min:3|max:1000|required|string',
-            'image' => 'mimes:jpeg,png|max:1024',
-            'active' => 'min:1|max:1|boolean',
+            'image' => 'max:1024|required|mimes:jpeg,png',
+            'active' => 'accepted',
         ];
     }
 }
