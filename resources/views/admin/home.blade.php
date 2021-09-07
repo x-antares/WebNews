@@ -23,6 +23,20 @@
                 <td>{{$new->active}}</td>
                 <td>{{$new->created_at}}</td>
                 <td>{{$new->updated_at}}</td>
+                <td>
+                <div class="btn-group">
+                    <a href="{{route('news.show', $new)}}" class="btn btn-sm btn-primary">View</a>
+                    @auth
+                        <a href="{{route('news.edit', $new)}}" class="btn btn-sm btn-warning">Edit</a>
+                        <form method="POST" action="{{route('news.destroy', $new)}}"
+                              onSubmit="if(!confirm('Are you really want to delete this new?')){return false;}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    @endauth
+                </div>
+                </td>
             </tr>
         @endforeach
         </tbody>

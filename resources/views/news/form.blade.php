@@ -34,7 +34,7 @@
             <div class="custom-file">
                 <input type="file" name="image" class="custom-file-input" id="chooseFile">
                 <label class="custom-file-label" for="chooseFile">
-                    {{ isset($news->image_path) ? $news->image_path : "Select file" }}</label>
+                    {{ old('image',isset($news->image_path) ? $news->image_path : "Select file") }}</label>
             </div>
         </div>
         <div class="form-group row">
@@ -47,7 +47,10 @@
         </div>
         <div class="form-group row">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="active" value ="{{ old('active', isset($news->active) ? $news->active : null) }}" id="active">
+                <label class="form-check-inline">
+                <input type="checkbox" name="active" value ="1" @if (isset($news)) @if ($news->active == 1) checked @endif @endif id="active">
+                </label>
+
                 <label for="active">Publish new</label>
             </div>
         </div>

@@ -17,6 +17,6 @@ use App\Http\Controllers\NewsController;
 
 Route::redirect('/', 'news')->name('home');
 Route::resource('news', NewsController::class);
-Route::get('/admin', [App\Http\Controllers\HomeController::class, 'index'])->name('admin');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin');
 
 Auth::routes();
