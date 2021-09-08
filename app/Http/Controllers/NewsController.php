@@ -108,7 +108,7 @@ class NewsController extends Controller
      * @param TagRequest $tagRequest
      * @return RedirectResponse
      */
-    public function update(NewsRequest $request, News $news, TagRequest $tagRequest, Request $requestEdit)
+    public function update(NewsRequest $request, News $news, TagRequest $tagRequest)
     {
         $id = $news->id;
         $news->name = $request->get('name');
@@ -126,15 +126,13 @@ class NewsController extends Controller
         $newsTags = $news->tags;
 
         // Request tags
-       $editedRequest = $this->removeExistsTags($requestEdit, $newsTags);
-       $tagRequest->set('tag', $editedRequest);
+       $tagRequest->set('tag', $tagRequest);
 
         $requestTags = $tagRequest->get('tag');
 
         if(isEmpty($newsTags)) {
             $this->createTags($requestTags, $news);
         }else{
-            $this->removeExistsTags($tagRequest, $newsTags);
             $modelArrayTags = array();
             $resultArrayTags = array();
             foreach ($newsTags as $newsTag){
@@ -267,7 +265,6 @@ class NewsController extends Controller
 
         return $tagModel->name;
     }
-
 
     /**
      * Unlink generated link
