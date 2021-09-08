@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Request;
 use function PHPUnit\Framework\isEmpty;
 
 class NewsController extends Controller
@@ -107,7 +108,7 @@ class NewsController extends Controller
      * @param TagRequest $tagRequest
      * @return RedirectResponse
      */
-    public function update(NewsRequest $request, News $news, TagRequest $tagRequest)
+    public function update(NewsRequest $request, News $news, TagRequest $tagRequest, Request $requestEdit)
     {
         $id = $news->id;
         $news->name = $request->get('name');
@@ -125,11 +126,15 @@ class NewsController extends Controller
         $newsTags = $news->tags;
 
         // Request tags
+       $editedRequest = $this->removeExistsTags($requestEdit, $newsTags);
+       $tagRequest->set('tag', $editedRequest);
+
         $requestTags = $tagRequest->get('tag');
 
         if(isEmpty($newsTags)) {
             $this->createTags($requestTags, $news);
         }else{
+            $this->removeExistsTags($tagRequest, $newsTags);
             $modelArrayTags = array();
             $resultArrayTags = array();
             foreach ($newsTags as $newsTag){
@@ -141,8 +146,6 @@ class NewsController extends Controller
                     if ($value !== $modelTag) {
                         $tag = $this->createTag($value, $news);
                         array_push($resultArrayTags, $tag);
-                    }else{
-
                     }
                 }
             }
@@ -292,5 +295,16 @@ class NewsController extends Controller
         }
     }
 
+    /**
+     * Remove exists tags in model from input tag
+     *
+     * @param $request
+     * @param $modelTags
+     * @return string
+     */
+    public function removeExistsTags($request, $modelTags)
+    {
+        return implode(" ", array_diff($request->get('tag'), $modelTags));
+    }
 }
 

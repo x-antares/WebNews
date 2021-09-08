@@ -23,7 +23,7 @@ class NewsFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'image_path' => $this->faker->image('public/storage/images', 350, 280, null, false),
+            'image_path' => $this->faker->image('public/storage/images'),
             'text' => $this->faker->sentence,
             'active' => $this->faker->boolean(true),
         ];
