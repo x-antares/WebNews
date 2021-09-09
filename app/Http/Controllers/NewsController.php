@@ -126,8 +126,6 @@ class NewsController extends Controller
         $newsTags = $news->tags;
 
         // Request tags
-//       $tagRequest->set('tag', $tagRequest);
-
         $requestTags = $tagRequest->get('tag');
 
         if(isEmpty($newsTags)) {
