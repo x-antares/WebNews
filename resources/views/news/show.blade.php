@@ -6,7 +6,7 @@
     <div class = "row">
         <div class = "col-8 offset-2">
             <div class = "card">
-                @if(isset($news->image_path))
+                @if($news->image_path !== '0')
                     <div class = "card-footer small-muted small">
                         <img src="{{ $news->image_path }}" class="img-fluid rounded" alt="Image">
                     </div>

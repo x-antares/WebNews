@@ -4,6 +4,7 @@
     <div class="container-fluid">
         <h1 class="text-black-50" align="center">News List</h1>
     </div>
+    <a class="btn btn-primary" href="{{route('news.create')}}" role="button">Create news</a>
     <table class="table table-striped">
         <thead>
         <tr>

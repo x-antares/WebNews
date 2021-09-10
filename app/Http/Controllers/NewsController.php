@@ -16,6 +16,11 @@ use function PHPUnit\Framework\isEmpty;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,9 +58,10 @@ class NewsController extends Controller
 
         // Load image
         if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store('images');
-            $news->image_path = '/storage/' . $path;
+            $imageName = $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->store('public/files');
+            $news->image_name = $imageName;
+            $news->image_path = '/storage/'.$imagePath;
         }
         $news->save();
 
@@ -116,9 +122,10 @@ class NewsController extends Controller
         $news->active = $request->get('active');
 
         if($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store('images');
-            $news->image_path = '/storage/' . $path;
+            $imageName = $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->store('public/files');
+            $news->image_name = $imageName;
+            $news->image_path = '/storage/'.$imagePath;
         }
         $news->save();
 

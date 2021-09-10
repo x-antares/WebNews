@@ -24,8 +24,8 @@ class TagRequest extends FormRequest
     public function rules()
     {
         return [
-            'tag' => 'min:1|max:25|required|array',
-            'tag.*' => 'min:3|max:25|required|string|unique:tags,name|distinct',
+            'tag' => 'min:1|max:25|array',
+            'tag.*' => 'min:3|max:25|string|unique:tags,name|distinct',
         ];
     }
 
@@ -35,7 +35,6 @@ class TagRequest extends FormRequest
         foreach ($this->get('tag') as $key => $val) {
             $messages["tag.$key.min"] = "The Tag: $val must be at least :min.";
             $messages["tag.$key.max"] = "The Tag: $val must not be greater than :max.";
-            $messages["tag.$key.required"] = "Tags field is required.";
             $messages["tag.$key.string"] = "Tags field input must be a string.";
             $messages["tag.$key.unique"] = "The Tag: $val has already been taken.";
             $messages["tag.$key.distinct"] = "Tags input has a duplicate value.";
