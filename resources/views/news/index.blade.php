@@ -6,6 +6,7 @@
         <a class="btn btn-primary" href="{{route('news.create')}}" role="button">Create news</a>
         <a class="btn btn-primary" href="{{route('admin')}}" role="button">Go to Admin Panel</a>
         @endauth
+            @if(!$news->isEmpty())
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mt-4">
             @foreach($news as $new)
                 <div class="col">
@@ -42,4 +43,7 @@
         </div>
     </div>
     {{ $news->links() }}
+    @else
+        <h4 align="center">List news empty</h4>
+    @endif
 @endsection

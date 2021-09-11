@@ -5,7 +5,8 @@
         <h1 class="text-black-50" align="center">News List</h1>
     </div>
     <a class="btn btn-primary" href="{{route('news.create')}}" role="button">Create news</a>
-    <table class="table table-striped">
+    @if(!$news->isEmpty())
+        <table class="table table-striped">
         <thead>
         <tr>
             <th scope="col">Id</th>
@@ -43,4 +44,7 @@
         </tbody>
     </table>
     {{ $news->links() }}
+    @else
+        <h4 align="center">List news empty</h4>
+    @endif
 @endsection

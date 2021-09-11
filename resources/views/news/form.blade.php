@@ -32,9 +32,8 @@
         </div>
         <div class="form-group">
             <div class="custom-file">
-                <input type="file" name="image" class="custom-file-input" id="chooseFile">
-                <label class="custom-file-label" for="chooseFile">
-                    {{ old('image',isset($news->image_path) ? $news->image_path : "Select file") }}</label>
+                <input type="file" name="image" id="image">
+                <label for="image"> {{ isset($news->image_name) ? "Saved image:".$news->image_name : null }}</label>
             </div>
         </div>
         <div class="form-group row">

@@ -13,7 +13,7 @@
                 @endif
                 <div class = "card-body">
                     <p class = "card-text">Created at: {{ $news->created_at->format('d-m-y H:i:s') }} </p>
-                    <p class = "card-text"> {!! $news->text !!} </p>
+                    <p> {!! $news->text !!} </p>
                     <p class = "card-text">
                         @foreach($news->tags as $tag)
                             <a href="">#{{$tag->name}}</a>

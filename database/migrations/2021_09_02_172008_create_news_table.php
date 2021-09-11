@@ -19,7 +19,7 @@ class CreateNewsTable extends Migration
             $table->string('image_name')->nullable();
             $table->string('image_path')->nullable();
             $table->text('text');
-            $table->string('active')->default(null);
+            $table->boolean('active')->nullable();
             $table->timestamps();
         });
     }

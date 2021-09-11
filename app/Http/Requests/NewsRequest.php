@@ -27,7 +27,7 @@ class NewsRequest extends FormRequest
             'name' => 'min:3|max:55|required|string',
             'text' => 'min:3|max:1000|required|string',
             'image' => 'max:1024|mimes:jpeg,png',
-            'active' => 'accepted',
+            'active' => 'boolean',
         ];
     }
 }
