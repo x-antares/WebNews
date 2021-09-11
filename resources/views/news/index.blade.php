@@ -11,7 +11,7 @@
             @foreach($news as $new)
                 <div class="col">
                     <div class="card shadow-sm">
-                        @if($new->image_path !== '0')
+                        @if($new->image_path !== NULL)
                         <img class="bd-placeholder-img card-img-top" width="350" height="280" src="{{$new->image_path}}">
                         @endif
                         <div class="card-body">

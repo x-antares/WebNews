@@ -32,6 +32,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         News::create([
+            'name' => 'Lorem ipson',
+            'text' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+            'image_name' => NULL,
+            'image_path' => NULL,
+            'active' => boolval(true)
+        ]);
+
+        News::create([
             'name' => 'Art Deco',
             'text' => 'Art Deco, sometimes referred to as Deco, is a style of visual arts, architecture and design that first appeared in France just before World War I. Art Deco influenced the design of buildings, furniture, jewelry, fashion, cars, movie theatres, trains, ocean liners, and everyday objects such as radios and vacuum cleaners. It took its name, short for Arts Décoratifs, from the Exposition internationale des arts décoratifs et industriels modernes (International Exhibition of Modern Decorative and Industrial Arts) held in Paris in 1925. It combined modern styles with fine craftsmanship and rich materials. During its heyday, Art Deco represented luxury, glamour, exuberance, and faith in social and technological progress.',
             'image_name' => 'art_deco.jpg',
