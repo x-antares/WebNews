@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Requests;
-
+use App\Models\News;
+use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TagRequest extends FormRequest
@@ -45,6 +46,8 @@ class TagRequest extends FormRequest
 
     public function getValidatorInstance()
     {
+        $this->unlinkTags();
+        $this->freshNewsTags();
         $this->formatTagsString();
         return parent::getValidatorInstance();
     }
@@ -52,5 +55,45 @@ class TagRequest extends FormRequest
     protected function formatTagsString()
     {
         $this->request->set('tag', explode(" ", $this->request->get('tag')));
+    }
+
+    protected function freshNewsTags()
+    {
+        $newsModel = $this->news;
+
+        if(isset($newsModel))
+        {
+            $newsTags = $newsModel->tags;
+
+            foreach ($newsTags as $newsTag)
+            {
+                $idTag = $newsTag->id;
+                Tag::destroy($idTag);
+            }
+        }
+    }
+
+    public function unlinkTags()
+    {
+        $newsModel = $this->news;
+        $newsId = $newsModel->id;
+        $tags = $newsModel->tags;
+
+        foreach ($tags as $value) {
+            $replace = $value->name;
+            $genUrl = url("/news/{$newsId}");
+            $search = '<a href="'.$genUrl.'">'.$replace.'</a>';;
+
+            $news = News::where('text', 'Like', '%'.$search.'%')->get();
+
+            if(!empty($news)) {
+                foreach ($news as $new) {
+                    $subject = $new->text;
+                    $result = str_replace($search, $replace, $subject);
+                    $new->text = $result;
+                    $new->save();
+                }
+            }
+        }
     }
 }

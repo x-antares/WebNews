@@ -112,32 +112,32 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('taggables')->insert([
-            'tag_id' => Tag::all()->random()->id,
-            'taggable_id' => News::all()->random()->id,
+            'tag_id' => 1,
+            'taggable_id' => 1,
             'taggable_type' => 'App\Models\News',
         ]);
 
         DB::table('taggables')->insert([
-            'tag_id' => Tag::all()->random()->id,
-            'taggable_id' => News::all()->random()->id,
+            'tag_id' => 2,
+            'taggable_id' => 2,
             'taggable_type' => 'App\Models\News',
         ]);
 
         DB::table('taggables')->insert([
-            'tag_id' => Tag::all()->random()->id,
-            'taggable_id' => News::all()->random()->id,
+            'tag_id' => 3,
+            'taggable_id' => 3,
             'taggable_type' => 'App\Models\News',
         ]);
 
         DB::table('taggables')->insert([
-            'tag_id' => Tag::all()->random()->id,
-            'taggable_id' => News::all()->random()->id,
+            'tag_id' => 4,
+            'taggable_id' => 4,
             'taggable_type' => 'App\Models\News',
         ]);
 
         DB::table('taggables')->insert([
-            'tag_id' => Tag::all()->random()->id,
-            'taggable_id' => News::all()->random()->id,
+            'tag_id' => 5,
+            'taggable_id' => 4,
             'taggable_type' => 'App\Models\News',
         ]);
     }

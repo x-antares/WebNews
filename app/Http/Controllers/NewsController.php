@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use function PHPUnit\Framework\isEmpty;
 
 class NewsController extends Controller
 {
@@ -115,7 +114,6 @@ class NewsController extends Controller
      */
     public function update(NewsRequest $request, News $news, TagRequest $tagRequest)
     {
-        $id = $news->id;
         $news->name = $request->get('name');
         $news->text = $request->get('text');
         $news->active = $request->get('active');
@@ -126,7 +124,6 @@ class NewsController extends Controller
             $news->image_name = $imageName;
             $news->image_path = '/storage/'.$imagePath;
         }
-        $news->save();
 
         // Model tags
         $newsTags = $news->tags;
@@ -134,30 +131,11 @@ class NewsController extends Controller
         // Request tags
         $requestTags = $tagRequest->get('tag');
 
-        if(isEmpty($newsTags)) {
-            $this->createTags($requestTags, $news);
-        }else{
-            $modelArrayTags = array();
-            $resultArrayTags = array();
-            foreach ($newsTags as $newsTag){
-                $nameTag = $newsTag->name;
-                array_push($modelArrayTags, $nameTag);
-            }
-            foreach ($requestTags as $value) {
-                foreach ($modelArrayTags as $modelTag) {
-                    if ($value !== $modelTag) {
-                        $tag = $this->createTag($value, $news);
-                        array_push($resultArrayTags, $tag);
-                    }
-                }
-            }
+        $this->createTags($requestTags, $news);
+        $news->save();
 
-            // Generate link to this news
-            $this->generateLinkToNew($resultArrayTags, $id);
-
-            // Generate link in this news to another
-            $this->generateLinkInNew($news);
-        }
+        // Generate link in this news to another
+        $this->generateLinkInNew($news);
 
         return redirect()->route('news.index')->withSuccess('Updated news '.$news->name);
     }
@@ -178,19 +156,18 @@ class NewsController extends Controller
     /**
      * Generate link to this new
      *
-     * @param $arr
-     * @param $arrId
+     * @param $tagsForLink
+     * @param $newsId
      */
-    public function generateLinkToNew($arr, $arrId)
+    public function generateLinkToNew($tagsForLink, $newsId)
     {
-        foreach ($arr as $value) {
+        foreach ($tagsForLink as $value) {
             $search = $value->name;
             $news = News::where('text', 'Like', '%'.$search.'%')->get();
-
-            if(!empty($news)) {
+            if(!empty($news)){
                 foreach ($news as $new) {
                     $subject = $new->text;
-                    $url = url("/news/{$arrId}");
+                    $url = url("/news/{$newsId}");
                     $replace = '<a href="'.$url.'">'.$search.'</a>';;
                     $result = str_replace($search, $replace, $subject);
                     $new->text = $result;
@@ -237,75 +214,23 @@ class NewsController extends Controller
         $tagsArray = array();
 
         foreach ($tags as $tag) {
-            $tagModel = new Tag();
-            $tagModel->name = $tag;
-            $tagModel->save();
-            array_push($tagsArray, $tagModel);
-        }
-        $news->tags()->saveMany($tagsArray);
-
-        // Generate link to this news
-        $thisArr = $news->tags;
-        $id = $news->id;
-        $this->generateLinkToNew($thisArr, $id);
-
-        // Generate link in this news to another
-        $this->generateLinkInNew($news);
-    }
-
-    /**
-     * Create tag
-     *
-     * @param $tag
-     * @param News $news
-     * @return Tag
-     */
-    public function createTag($tag, News $news)
-    {
-        $tagModel = new Tag();
-        $tagModel->name = $tag;
-        $tagModel->save();
-        $news->tags()->save($tag);
-
-        return $tagModel->name;
-    }
-
-    /**
-     * Unlink generated link
-     *
-     * @param $tags
-     * @param $newsId
-     */
-    public function unlink($tags, $newsId)
-    {
-        foreach ($tags as $value) {
-            $replace = $value->name;
-            $genUrl = url("/news/{$newsId}");
-            $search = '<a href="'.$genUrl.'">'.$replace.'</a>';;
-
-            $news = News::where('text', 'Like', '%'.$search.'%')->get();
-
-            if(!empty($news)) {
-                foreach ($news as $new) {
-                    $subject = $new->text;
-                    $result = str_replace($search, $replace, $subject);
-                    $new->text = $result;
-                    $new->save();
-                }
+            if($tag !== "")
+            {
+                $tagModel = new Tag();
+                $tagModel->name = $tag;
+                $tagModel->save();
+                array_push($tagsArray, $tagModel);
             }
         }
-    }
 
-    /**
-     * Remove exists tags in model from input tag
-     *
-     * @param $request
-     * @param $modelTags
-     * @return string
-     */
-    public function removeExistsTags($request, $modelTags)
-    {
-        return implode(" ", array_diff($request->get('tag'), $modelTags));
+        if(!empty($tagsArray))
+        {
+            $news->tags()->saveMany($tagsArray);
+
+            // Generate link to this news
+            $newsId = $news->id;
+            $this->generateLinkToNew($tagsArray, $newsId);
+        }
     }
 }
 
