@@ -76,22 +76,26 @@ class TagRequest extends FormRequest
     public function unlinkTags()
     {
         $newsModel = $this->news;
-        $newsId = $newsModel->id;
-        $tags = $newsModel->tags;
 
-        foreach ($tags as $value) {
-            $replace = $value->name;
-            $genUrl = url("/news/{$newsId}");
-            $search = '<a href="'.$genUrl.'">'.$replace.'</a>';;
+        if(isset($newsModel))
+        {
+            $newsId = $newsModel->id;
+            $tags = $newsModel->tags;
 
-            $news = News::where('text', 'Like', '%'.$search.'%')->get();
+            foreach ($tags as $value) {
+                $replace = $value->name;
+                $genUrl = url("/news/{$newsId}");
+                $search = '<a href="'.$genUrl.'">'.$replace.'</a>';;
 
-            if(!empty($news)) {
-                foreach ($news as $new) {
-                    $subject = $new->text;
-                    $result = str_replace($search, $replace, $subject);
-                    $new->text = $result;
-                    $new->save();
+                $news = News::where('text', 'Like', '%'.$search.'%')->get();
+
+                if(!empty($news)) {
+                    foreach ($news as $new) {
+                        $subject = $new->text;
+                        $result = str_replace($search, $replace, $subject);
+                        $new->text = $result;
+                        $new->save();
+                    }
                 }
             }
         }
