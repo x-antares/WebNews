@@ -60,8 +60,7 @@ class TagRequest extends FormRequest
     {
         $newsModel = $this->news;
 
-        if(isset($newsModel))
-        {
+        if(isset($newsModel)) {
             $newsModel->tags()->delete();
             $newsModel->tags()->detach();
         }
@@ -71,8 +70,7 @@ class TagRequest extends FormRequest
     {
         $newsModel = $this->news;
 
-        if(isset($newsModel))
-        {
+        if(isset($newsModel)) {
             $newsId = $newsModel->id;
             $tags = $newsModel->tags;
 

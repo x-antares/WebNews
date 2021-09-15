@@ -95,8 +95,7 @@ class NewsController extends Controller
         $tags = $news->tags;
         $arr = [];
 
-        foreach ($tags as $tag)
-        {
+        foreach ($tags as $tag) {
             $arr[] = $tag->name;
         }
         $strTags = implode(" ", $arr);
@@ -150,6 +149,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $this->unlinkTagsForDestroy($news);
         $news->tags()->delete();
         $news->tags()->detach();
         $news->delete();
@@ -230,8 +230,7 @@ class NewsController extends Controller
         $tagsArray = array();
 
         foreach ($tags as $tag) {
-            if($tag !== "")
-            {
+            if($tag !== "") {
                 $tagModel = new Tag();
                 $tagModel->name = $tag;
                 $tagModel->save();
@@ -239,8 +238,7 @@ class NewsController extends Controller
             }
         }
 
-        if(!empty($tagsArray))
-        {
+        if(!empty($tagsArray)) {
             $news->tags()->saveMany($tagsArray);
 
             // Generate link to this news
@@ -276,6 +274,34 @@ class NewsController extends Controller
             $result = str_replace($arraySearch, $arrayReplace, $subject);
             $modelNew->text = $result;
             $modelNew->save();
+    }
+
+    /**
+     * Unlink Tags while delete new
+     *
+     * @param News $newsModel
+     */
+    public function unlinkTagsForDestroy(News $newsModel)
+    {
+        $newsId = $newsModel->id;
+        $tags = $newsModel->tags;
+
+        foreach ($tags as $value) {
+            $replace = $value->name;
+            $genUrl = url("/news/{$newsId}");
+            $search = '<a href="'.$genUrl.'">'.$replace.'</a>';
+
+            $news = News::where('text', 'Like', '%'.$search.'%')->get();
+
+            if(!empty($news)) {
+                foreach ($news as $new) {
+                    $subject = $new->text;
+                    $result = str_replace($search, $replace, $subject);
+                    $new->text = $result;
+                    $new->save();
+                }
+            }
+        }
     }
 }
 
