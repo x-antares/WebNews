@@ -21,12 +21,14 @@
                     </p>
                 </div>
             </div>
+            @auth
             <form method="POST" action="{{route('news.destroy', $news)}}">
                 <a type="button" class="btn btn-warning mt-3" href="{{route('news.edit', $news)}}">Edit</a>
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger mt-3">Delete</button>
             </form>
+            @endauth
         </div>
     </div>
 @endsection

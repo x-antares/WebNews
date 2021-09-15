@@ -67,6 +67,9 @@ class NewsController extends Controller
         $tags = $tagRequest->get('tag');
         $this->createTags($tags, $news);
 
+        // Generate link in this news to another
+        $this->generateLinkInNew($news);
+
         return redirect()->route('news.index')->withSuccess('Created news '.$request->name);
     }
 
@@ -125,14 +128,13 @@ class NewsController extends Controller
             $news->image_path = '/storage/'.$imagePath;
         }
 
-        // Model tags
-        $newsTags = $news->tags;
-
-        // Request tags
         $requestTags = $tagRequest->get('tag');
 
         $this->createTags($requestTags, $news);
         $news->save();
+
+        // Unlink url
+        $this->unlinkInNew($news);
 
         // Generate link in this news to another
         $this->generateLinkInNew($news);
@@ -148,6 +150,8 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
+        $news->tags()->delete();
+        $news->tags()->detach();
         $news->delete();
 
         return redirect()->route('news.index')->withDanger('Deleted news '.$news->name);
@@ -164,14 +168,17 @@ class NewsController extends Controller
         foreach ($tagsForLink as $value) {
             $search = $value->name;
             $news = News::where('text', 'Like', '%'.$search.'%')->get();
-            if(!empty($news)){
+            if(!empty($news)) {
                 foreach ($news as $new) {
-                    $subject = $new->text;
-                    $url = url("/news/{$newsId}");
-                    $replace = '<a href="'.$url.'">'.$search.'</a>';;
-                    $result = str_replace($search, $replace, $subject);
-                    $new->text = $result;
-                    $new->save();
+                    if ($new->id !== $newsId) {
+                        $regSearch = '/\b'.$search.'\b/';
+                        $subject = $new->text;
+                        $url = url("/news/{$newsId}");
+                        $replace = ' <a href="'.$url.'">'. $search .'</a>';
+                        $result = preg_replace($regSearch, $replace, $subject);
+                        $new->text = $result;
+                        $new->save();
+                    }
                 }
             }
         }
@@ -185,22 +192,31 @@ class NewsController extends Controller
     public function generateLinkInNew(News $modelNew)
     {
         $subject = $modelNew->text;
+        $modelNewId = $modelNew->id;
         $tags = Tag::all();
+
+        $arrayTagName = [];
+        $arrayReplace = [];
+
         foreach ($tags as $tag) {
             $tagName = $tag->name;
 
             if(strpos($subject, $tagName) !== false) {
-                $array = $tag->news;
-                foreach ($array as $value) {
-                    $newsId = $value->id;
+                $news = $tag->news->first();
+                $newsId = $news->id;
+
+                if($modelNewId !== $newsId) {
                     $url = url("/news/{$newsId}");
                     $replace = '<a href="'.$url.'">'.$tagName.'</a>';
-                    $result = str_replace($tagName, $replace, $subject);
-                    $modelNew->text = $result;
-                    $modelNew->save();
+                    $tagName = '/\b'.$tagName.'\b/';
+                    $arrayReplace[] = $replace;
+                    $arrayTagName[] = $tagName;
                 }
             }
         }
+        $result = preg_replace($arrayTagName, $arrayReplace, $subject);
+        $modelNew->text = $result;
+        $modelNew->save();
     }
 
     /**
@@ -231,6 +247,35 @@ class NewsController extends Controller
             $newsId = $news->id;
             $this->generateLinkToNew($tagsArray, $newsId);
         }
+    }
+
+    /**
+     * Generate link in new
+     *
+     * @param News $modelNew
+     */
+    public function unlinkInNew(News $modelNew)
+    {
+            $subject = $modelNew->text;
+            $tags = Tag::all();
+            $arraySearch = [];
+            $arrayReplace = [];
+
+            foreach ($tags as $tag) {
+                $tagName = $tag->name;
+                if(strpos($subject, $tagName) !== false) {
+
+                    $news = $tag->news->first();
+                    $newsId = $news->id;
+                    $genUrl = url("/news/{$newsId}");
+                    $url = '<a href="'.$genUrl.'">'.$tagName.'</a>';
+                    $arraySearch[] = $url;
+                    $arrayReplace[] = $tagName;
+                }
+            }
+            $result = str_replace($arraySearch, $arrayReplace, $subject);
+            $modelNew->text = $result;
+            $modelNew->save();
     }
 }
 

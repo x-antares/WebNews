@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 use App\Models\News;
-use App\Models\Tag;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TagRequest extends FormRequest
@@ -63,17 +62,12 @@ class TagRequest extends FormRequest
 
         if(isset($newsModel))
         {
-            $newsTags = $newsModel->tags;
-
-            foreach ($newsTags as $newsTag)
-            {
-                $idTag = $newsTag->id;
-                Tag::destroy($idTag);
-            }
+            $newsModel->tags()->delete();
+            $newsModel->tags()->detach();
         }
     }
 
-    public function unlinkTags()
+    protected function unlinkTags()
     {
         $newsModel = $this->news;
 
@@ -85,7 +79,7 @@ class TagRequest extends FormRequest
             foreach ($tags as $value) {
                 $replace = $value->name;
                 $genUrl = url("/news/{$newsId}");
-                $search = '<a href="'.$genUrl.'">'.$replace.'</a>';;
+                $search = '<a href="'.$genUrl.'">'.$replace.'</a>';
 
                 $news = News::where('text', 'Like', '%'.$search.'%')->get();
 

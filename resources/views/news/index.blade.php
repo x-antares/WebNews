@@ -43,6 +43,13 @@
         </div>
     </div>
     {{ $news->links() }}
+    <footer class="text-muted py-5">
+        <div class="container">
+            <p class="float-end mb-1">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
     @else
         <h4 align="center">List news empty</h4>
     @endif

@@ -55,7 +55,7 @@
         </div>
         <div class="form-group row">
             <div class="col-sx-10">
-                <button type="submit" class="btn btn-success form-control pull-right">Create</button>
+                <button type="submit" class="btn btn-success form-control pull-right">Submit</button>
             </div>
         </div>
     </form>
