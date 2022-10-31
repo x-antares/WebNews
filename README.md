@@ -6,7 +6,7 @@ Install MySQL
 
 Install composer
 
-git clone https://github.com/0Jac0k19D01rupal0/WebNews.git folder
+git clone https://github.com/x-antares/WebNews.git folder
 
 cd folder
 
